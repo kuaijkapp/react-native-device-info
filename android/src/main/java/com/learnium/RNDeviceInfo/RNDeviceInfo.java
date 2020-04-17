@@ -10,17 +10,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
-@SuppressWarnings("unused")
 public class RNDeviceInfo implements ReactPackage {
+  private boolean mLoadConstantsAsynchronously = true;
+
+  public RNDeviceInfo() {
+    this(false);
+  }
+
+  public RNDeviceInfo(boolean loadConstantsAsynchronously) {
+    mLoadConstantsAsynchronously = loadConstantsAsynchronously;
+  }
 
   @Override
-  @Nonnull
-  public List<NativeModule> createNativeModules(@Nonnull ReactApplicationContext reactContext) {
+  public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
     List<NativeModule> modules = new ArrayList<>();
 
-    modules.add(new RNDeviceModule(reactContext));
+    modules.add(new RNDeviceModule(reactContext, mLoadConstantsAsynchronously));
 
     return modules;
   }
@@ -31,8 +36,8 @@ public class RNDeviceInfo implements ReactPackage {
   }
 
   @Override
-  @Nonnull
-  public List<ViewManager> createViewManagers(@Nonnull ReactApplicationContext reactContext) {
+  public List<ViewManager> createViewManagers(
+      ReactApplicationContext reactContext) {
     return Collections.emptyList();
   }
 
